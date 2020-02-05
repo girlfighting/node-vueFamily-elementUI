@@ -11,7 +11,18 @@ module.exports = {
   chainWebpack: config => {},
   //如果这个值是一个对象，则会通过webpack-merge合并到最终的配置中。
   //如果是一个函数，则会接收被解析的配置作为参数，该函数可以修改配置但不返回任何东西，也可以返回一个被克隆或合并过的配置版本
-  configureWebpack: config => {},
+  configureWebpack: config => {
+    config.resolve = { //设置模块如何被解析 webpack里的resolve配置
+      extensions:['js','json','vue'], //自动解析确定扩展。也就是文件格式是数组中的，可以不带扩展名
+      alias:{
+        //配置解析别名
+        '@':path.resolve(__dirname,'./src'),
+        'pubulic':path.resolve(__dirname,'./public'),
+        'component':path.resolve(__dirname,'./src/components'),
+        'views':path.resolve(__dirname,'./src/views')
+      }
+    }
+  },
   // 默认情况下 babel-loader 会忽略所有 node_modules 中的文件。如果你想要通过 Babel 显式转译一个依赖，可以在这个选项中列出来
   transpileDependencies: [],
   // 构建多页时使用
