@@ -6,7 +6,7 @@ module.exports = {
   //生产环境打包时不启用source map
   productionSourceMap: false,
   //eslint-loader 保存时是否检查
-  lintOnSave: true,
+  // lintOnSave: true,
   //结束一个函数，基于webpack-chain的chainableConfig实例，允许对内部的webpack进行更细粒度的修改
   chainWebpack: config => {},
   //如果这个值是一个对象，则会通过webpack-merge合并到最终的配置中。
@@ -20,7 +20,7 @@ module.exports = {
   css: {
     //是否启用css modules
     // 当为true时，css文件名可省略 module 默认为 false
-    requireModuleExtension: false,
+    requireModuleExtension: true, //需要设置为true，不然elementui样式不起作用
     // 是否将组件中的 CSS 提取至一个独立的 CSS 文件中,当作为一个库构建时，你也可以将其设置为 false 免得用户自己导入 CSS
     // 默认生产环境下是 true，开发环境下是 false
     extract: true,
