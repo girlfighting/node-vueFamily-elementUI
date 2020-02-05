@@ -15,6 +15,11 @@
         <label>密码</label>
         <el-input type="password" v-model="ruleForm.pwd"></el-input>
       </el-form-item>
+      <!-- 此处注意确认密码隐藏显示造成的验证问题 用v_if直接删除DOM,不会造成验证问题。用v-show，只是隐藏DOM,需要对其验证函数做处理 -->
+      <el-form-item prop="repwd" v-if="!isLogin">
+        <label>确认密码</label>
+        <el-input type="password" v-model="ruleForm.repwd"></el-input>
+      </el-form-item>
       <el-form-item prop="code">
         <label>验证码</label>
         <el-row :gutter='11'>
@@ -37,11 +42,19 @@
 export default {
   name: "login",
   data() {
+    var repeatPwd = (rule,value,callback)=>{
+      if(value != this.ruleForm.pwd){
+        callback("两次密码不一样");
+      }else{
+        callback();
+      }
+    }
     return {
       isLogin: true,
       ruleForm: {
         username:'',
         pwd: '',
+        repwd:'',
         code:'',
       },
       rules:{
@@ -50,6 +63,10 @@ export default {
         ],
         pwd:[
           {required:true,message:'请输入密码',trigger:'blur'},
+        ],
+        repwd:[
+          {required:true,message:'请确认密码',trigger:'blur'},
+          {validator:repeatPwd,triggle:'blur'}
         ],
         code:[
           {required:true,message:'请输入验证码',trigger:'blur'},
@@ -70,6 +87,11 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+    }
+  },
+  watch:{
+    isLogin(){
+      this.$refs.ruleForm.resetFields();
     }
   }
 };
