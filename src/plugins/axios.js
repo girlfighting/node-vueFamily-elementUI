@@ -2,13 +2,13 @@ import axios from 'axios';
 import { Message, MessageBox } from 'element-ui';
 
 //自定义axios实例
-const serve = axios.create({
+const server = axios.create({
     baseURL: API_URL, // 后端接口根路径
     timeout: 60 * 1000, // 请求超时时间
 })
 
 // 添加请求拦截器
-axios.interceptors.request.use((config) =>{
+server.interceptors.request.use((config) =>{
     // 在发送请求之前做些什么
     return config;
   }, function (error) {
@@ -22,7 +22,7 @@ axios.interceptors.request.use((config) =>{
   });
 
 // 添加响应拦截器
-axios.interceptors.response.use(function (response) {
+server.interceptors.response.use(function (response) {
     // 对响应数据做点什么
     const res = response.data;
     // 600表示token异常需要重新登录
@@ -65,3 +65,5 @@ axios.interceptors.response.use(function (response) {
     })
     return Promise.reject(error);
   });
+
+  export default server;
